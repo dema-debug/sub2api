@@ -18,6 +18,10 @@ ARG GOSUMDB=sum.golang.google.cn
 # -----------------------------------------------------------------------------
 FROM ${NODE_IMAGE} AS frontend-builder
 
+ARG SUB2API_BASE_PATH=/
+ENV SUB2API_BASE_PATH=${SUB2API_BASE_PATH}
+ENV VITE_BASE_PATH=${SUB2API_BASE_PATH}
+
 WORKDIR /app/frontend
 
 # Install pnpm

@@ -6,10 +6,11 @@
 import axios, { AxiosInstance, AxiosError, InternalAxiosRequestConfig, AxiosResponse } from 'axios'
 import type { ApiResponse } from '@/types'
 import { getLocale } from '@/i18n'
+import { withBasePath } from '@/utils/base-path'
 
 // ==================== Axios Instance Configuration ====================
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1'
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || withBasePath('/api/v1')
 
 export const apiClient: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
@@ -137,7 +138,7 @@ apiClient.interceptors.response.use(
         }
 
         if (window.location.pathname.startsWith('/admin/ops')) {
-          window.location.href = '/admin/settings'
+          window.location.href = withBasePath('/admin/settings')
         }
 
         return Promise.reject({
@@ -232,7 +233,7 @@ apiClient.interceptors.response.use(
             sessionStorage.setItem('auth_expired', '1')
 
             if (!window.location.pathname.includes('/login')) {
-              window.location.href = '/login'
+              window.location.href = withBasePath('/login')
             }
 
             return Promise.reject({
@@ -263,7 +264,7 @@ apiClient.interceptors.response.use(
         }
         // Only redirect if not already on login page
         if (!window.location.pathname.includes('/login')) {
-          window.location.href = '/login'
+          window.location.href = withBasePath('/login')
         }
       }
 
