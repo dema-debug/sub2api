@@ -16,9 +16,16 @@ services:
   # Sub2API Application
   # ===========================================================================
   sub2api:
-    image: weishaw/sub2api:latest
+    image: ${SUB2API_IMAGE_NAME:-yourname/sub2api}:${SUB2API_IMAGE_TAG:-custom}
+    build:
+      context: ..
+      dockerfile: Dockerfile
+      args:
+        SUB2API_BASE_PATH: ${SUB2API_BASE_PATH:-/}
     container_name: sub2api
     restart: unless-stopped
+    env_file:
+      - ../.env
     ulimits:
       nofile:
         soft: 100000
@@ -185,6 +192,8 @@ services:
     image: postgres:18-alpine
     container_name: sub2api-postgres
     restart: unless-stopped
+    env_file:
+      - ../.env
     ulimits:
       nofile:
         soft: 100000
@@ -222,6 +231,8 @@ services:
     image: redis:8-alpine
     container_name: sub2api-redis
     restart: unless-stopped
+    env_file:
+      - ../.env
     ulimits:
       nofile:
         soft: 100000
